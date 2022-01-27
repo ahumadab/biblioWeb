@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "EMPRUNT")
 public class Emprunt
@@ -26,9 +28,11 @@ public class Emprunt
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_debut")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dateDebut;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "date_fin")
 	private Date dateFin;
 
