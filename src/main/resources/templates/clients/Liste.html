@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${titre}"></title>
+</head>
+<body>
+	<h1 th:text="${titre}"></h1>
+	<div th:insert="~{layouts/nav :: navigation}"></div>
+    <br>
+    <a th:href="@{/client/add}">Ajouter un nouveau Client</a>
+	<table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.nom}"></td>
+                <td th:text="${client.prenom}"></td>
+                <td>
+                    <a th:href="@{/client/delete/{id}(id=${client.id})}">Supprimer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
