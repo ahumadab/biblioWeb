@@ -24,9 +24,9 @@ public class ClientController
 {
 
 	@Autowired
-	JpaClient grc;
+	private JpaClient grc;
 
-	@GetMapping("/clients")
+	@GetMapping("")
 	public String findAll(Model model)
 	{
 		model.addAttribute("clients", (List<Client>) grc.findAll());
@@ -38,7 +38,7 @@ public class ClientController
 	public String add(Model model)
 	{
 		model.addAttribute("clientForm", new Client());
-		model.addAttribute("titre", "Ajout client");
+		model.addAttribute("titre", "Ajout de Client");
 		return "clients/add";
 	}
 
@@ -46,7 +46,7 @@ public class ClientController
 	public String add(Model model, @Valid @ModelAttribute("clientForm") Client clientForm)
 	{
 		grc.save(clientForm);
-		return "redirect:/client/clients";
+		return "redirect:/client";
 	}
 
 	@GetMapping("/delete/{id}")
@@ -58,6 +58,6 @@ public class ClientController
 			throw new ErrorClient("Client id: " + pid + " non trouvé !");
 		}
 		grc.deleteById(pid);
-		return "redirect:/client/clients";
+		return "redirect:/client";
 	}
 }

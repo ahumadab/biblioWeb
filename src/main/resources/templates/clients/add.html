@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="ISO-8859-1">
-<title th:text="${titre}">Titre</title>
+	<meta charset="ISO-8859-1">
+	<title th:text="${titre}">Titre</title>
 </head>
+
 <body>
 	<h1 th:text="${titre}"></h1>
 	<div th:insert="~{layouts/nav :: navigation}"></div>
 	<br>
-	
+
 	<form th:action="@{/client/add}" th:object="${clientForm}" method="post">
 		First Name:
 		<input type="text" th:field="*{prenom}">
@@ -18,6 +20,7 @@
 		<br>
 		<input type="submit" value="Create">
 	</form>
-	<a th:href="@{/client/clients}">Retour</a>
+	<a th:href="@{/client}">Retour</a>
 </body>
+
 </html>

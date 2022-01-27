@@ -10,20 +10,20 @@
     <h1 th:text="${titre}"></h1>
     <div th:insert="~{layouts/nav :: navigation}"></div>
     <br>
-    <a th:href="@{/client/add}">Ajouter un nouveau Client</a>
+    <a th:href="@{/livre/add}">Ajouter un nouveau Livre</a>
     <table>
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prenom</th>
+                <th>Auteur</th>
+                <th>Titre</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="client : ${clients}">
-                <td th:text="${client.nom}"></td>
-                <td th:text="${client.prenom}"></td>
+            <tr th:each="livre : ${livres}">
+                <td th:text="${livre.auteur}"></td>
+                <td th:text="${livre.titre}"></td>
                 <td>
-                    <a th:href="@{/client/delete/{id}(id=${client.id})}">Supprimer</a>
+                    <a th:href="@{/livre/delete/{id}(id=${livre.id})}">Supprimer</a>
                 </td>
             </tr>
         </tbody>
