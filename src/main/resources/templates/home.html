@@ -4,11 +4,12 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Home</title>
+	<th:block th:replace="layouts/style :: style"></th:block>
 </head>
 
 <body>
 	<h1>Hello World</h1>
-	<div th:insert="~{layouts/nav :: navigation}"></div>
+	<div th:replace="layouts/nav :: navigation"></div>
 </body>
 
 </html>

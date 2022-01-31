@@ -12,14 +12,14 @@
     <div th:insert="~{layouts/nav :: navigation}"></div>
     <br>
 
-    <form th:action="@{/livre/add}" th:object="${livreForm}" method="post">
-        Auteur:
-        <input type="text" th:field="*{auteur}">
-        <br>
+    <form th:action="'/livre/update/'+${livre.id}" th:object="${livreForm}" method="post">
         Titre:
-        <input type="text" th:field="*{titre}">
+        <input type="text" th:field="${livre.titre}" name="titre">
         <br>
-        <input type="submit" value="Create">
+        Auteur:
+        <input type="text" th:field="${livre.auteur}" name="auteur">
+        <br>
+        <input type="submit" value="Update">
     </form>
     <a th:href="@{/livre}">Retour</a>
 </body>

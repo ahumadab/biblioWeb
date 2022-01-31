@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title th:text="${titre}">Titre</title>
+    <th:block th:replace="layouts/style :: style"></th:block>
+</head>
+
+<body>
+    <h1 th:text="${titre}"></h1>
+    <div th:insert="~{layouts/nav :: navigation}"></div>
+    <br>
+
+    <form th:action="'/emprunt/update/'+${emprunt.id}" th:object="${empruntForm}" method="post">
+        <div class="form-group">
+            <div class="datepicker date input-group">
+                <input type="text" placeholder="Choisir une date de Début" class="form-control"
+                    th:field="{emprunt.dateDebut}" name="dateDebut">
+                <div class="input-group-append">
+                    <span class="input-group-text px-4">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="datepicker date input-group">
+                <input type="text" placeholder="Choisir une date de Fin" class="form-control"
+                    th:field="{emprunt.dateFin}" name="dateFin">
+                <div class="input-group-append">
+                    <span class="input-group-text px-4">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="number" placeholder="Delai" class="form-control" th:field="${emprunt.delai}" name="delai">
+            </div>
+            <div class="input-group">
+                <select class="form-control" th:field="*{clientEmprunts}">
+                    <option th:each="client : ${clients}" th:value="${client.id}"
+                        th:text="${client.nom}+ ' ' + ${client.prenom}"
+                        selected="${emprunt.clientEmprunts.id} == ${client.id} ? true : false">
+                    </option>
+                </select>
+            </div>
+
+
+            <input type="submit" value="Update">
+        </div>
+    </form>
+    <a th:href="@{/livre}">Retour</a>
+</body>
+
+</html>

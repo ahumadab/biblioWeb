@@ -26,6 +26,16 @@ public class ClientController
 	@Autowired
 	private JpaClient grc;
 
+	private Optional<Client> verifClient(Integer id) throws ErrorClient
+	{
+		Optional<Client> c = grc.findById(id);
+		if (c.isEmpty())
+		{
+			throw new ErrorClient("Client id: " + id + " non trouvé !");
+		}
+		return c;
+	}
+
 	@GetMapping("")
 	public String findAll(Model model)
 	{
@@ -52,12 +62,29 @@ public class ClientController
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer pid) throws ErrorClient
 	{
-		Optional<Client> c = grc.findById(pid);
-		if (c.isEmpty())
-		{
-			throw new ErrorClient("Client id: " + pid + " non trouvé !");
-		}
+		this.verifClient(pid);
 		grc.deleteById(pid);
+		return "redirect:/client";
+	}
+
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable("id") Integer pid, Model model) throws ErrorClient
+	{
+		Client client = this.verifClient(pid).get();
+		model.addAttribute("clientForm", new Client());
+		model.addAttribute("client", client);
+		model.addAttribute("titre", "Modification de Client");
+		return "clients/update";
+	}
+
+	@PostMapping("/update/{id}")
+	public String update(@PathVariable("id") Integer pid, Model model,
+			@Valid @ModelAttribute("clientForm") Client clientForm) throws ErrorClient
+	{
+		Client client = this.verifClient(pid).get();
+		client.setNom(clientForm.getNom());
+		client.setPrenom(clientForm.getPrenom());
+		grc.save(client);
 		return "redirect:/client";
 	}
 }
