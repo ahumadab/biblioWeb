@@ -37,6 +37,16 @@ public class EmpruntController
 	@Autowired
 	private JpaLivre grl;
 
+	private Optional<Emprunt> verifEmprunt(Integer id) throws ErrorEmprunt
+	{
+		Optional<Emprunt> e = gre.findById(id);
+		if (e.isEmpty())
+		{
+			throw new ErrorEmprunt("Emprunt id: " + id + " non trouvé !");
+		}
+		return e;
+	}
+
 	@GetMapping("")
 	public String findAll(Model model)
 	{
@@ -81,17 +91,44 @@ public class EmpruntController
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer pid) throws ErrorEmprunt
 	{
-		Optional<Emprunt> e = gre.findById(pid);
-		if (e.isEmpty())
-		{
-			throw new ErrorEmprunt("Emprunt id: " + pid + " non trouvé !");
-		}
-		gre.findByLivre(e.get()).forEach(l ->
+		Emprunt emprunt = this.verifEmprunt(pid).get();
+		gre.findByLivre(emprunt).forEach(l ->
 		{
 			l.getEmpruntsLivres().clear();
 			grl.save(l);
 		});
 		gre.deleteById(pid);
+		return "redirect:/emprunt";
+	}
+
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable("id") Integer pid, Model model) throws ErrorEmprunt
+	{
+		Emprunt emprunt = this.verifEmprunt(pid).get();
+		model.addAttribute("empruntForm", new Emprunt());
+		model.addAttribute("clients", (List<Client>) grc.findAll());
+		model.addAttribute("livres", (List<Livre>) grl.findAll());
+		model.addAttribute("emprunt", emprunt);
+		model.addAttribute("titre", "Modification d'Emprunt");
+		return "emprunts/update";
+	}
+
+	@PostMapping("/update/{id}")
+	public String update(@PathVariable("id") Integer pid, Model model,
+			@Valid @ModelAttribute("empruntForm") Emprunt empruntForm) throws ErrorEmprunt
+	{
+		Emprunt emprunt = this.verifEmprunt(pid).get();
+		emprunt.setDateDebut(empruntForm.getDateDebut());
+		emprunt.setDateFin(empruntForm.getDateFin());
+		emprunt.setDelai(empruntForm.getDelai());
+		emprunt.setClientEmprunts(empruntForm.getClientEmprunts());
+		emprunt.setLivresEmpruntes(empruntForm.getLivresEmpruntes());
+		gre.save(emprunt);
+		empruntForm.getLivresEmpruntes().forEach(l ->
+		{
+			l.getEmpruntsLivres().add(emprunt);
+			grl.save(l);
+		});
 		return "redirect:/emprunt";
 	}
 }

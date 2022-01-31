@@ -13,14 +13,6 @@
     <br>
 
     <form th:action="@{/emprunt/add}" th:object="${empruntForm}" method="post">
-        <!-- First Name:
-        <input type="text" th:field="*{prenom}">
-        <br>
-        Last Name:
-        <input type="text" th:field="*{nom}">
-        <br> -->
-
-
         <div class="form-group">
             <div class="datepicker date input-group">
                 <input type="text" placeholder="Choisir une date de Début" class="form-control" th:field="*{dateDebut}">

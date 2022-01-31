@@ -45,7 +45,7 @@
                         <span th:text="${emprunt.clientEmprunts.nom}">aze</span>
                         <span th:text="${emprunt.clientEmprunts.prenom}">aze</span>
                     </td>
-                    <td>
+                    <td class="d-flex">
                         <div th:replace="layouts/update :: update(link=@{/emprunt/update/{id}(id=${emprunt.id})})">
                         </div>
                         <div th:replace="layouts/delete :: delete(link=@{/emprunt/delete/{id}(id=${emprunt.id})})">
